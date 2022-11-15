@@ -9,7 +9,7 @@ const refs = {
   amount: document.querySelector('[name = "amount"]'),
 };
 
-console.log(refs)
+console.log(refs);
 
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
@@ -29,7 +29,7 @@ function onSucces (position, delay) {
 }
 
 function onError (position, delay) {
-  Notify.error(`❌ Rejected promise ${position} in ${delay}ms`)
+  Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`)
 }
 
 
