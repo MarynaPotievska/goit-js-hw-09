@@ -4,9 +4,9 @@ import 'notiflix/dist/notiflix-3.2.5.min.css';
 
 const refs = {
   form: document.querySelector('.form'),
-  delay: document.querySelector('[name = "delay"]'),
-  step: document.querySelector('[name = "step"]'),
-  amount: document.querySelector('[name = "amount"]'),
+  delay: Number(document.querySelector('[name="delay"]').value),
+  step: Number(document.querySelector('[name="step"]').value),
+  amount: Number(document.querySelector('[name="amount"]').value),
 };
 
 console.log(refs);
@@ -37,14 +37,11 @@ refs.form.addEventListener('submit', onSubmitForm)
 
 function onSubmitForm (event) {
   event.preventDefault();
-  const delay = Number(refs.delay.value);
-  const step = Number(refs.step.value);
-  const amount = Number(refs.step.value);
-  console.log(delay, step, amount)
+    
 
-  for (let i = 0; i < amount; i += 1) {
-    createPromise (i, delay).then(onSucces).catch(onError);  
-    delay += step;
+  for (let i = 0; i < refs.amount; i += 1) {
+    createPromise (i, refs.delay).then(onSucces).catch(onError);  
+    refs.delay += refs.step;
   }
 
 }

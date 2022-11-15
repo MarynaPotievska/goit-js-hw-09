@@ -15,8 +15,6 @@ const timer = {
 
 start.disabled = 'true';
 
-const timeToDate = {};
-
 const options = {
 	enableTime: true,
 	time_24hr: true,
@@ -31,8 +29,19 @@ const options = {
 		start.removeAttribute('disabled');
 		start.addEventListener('click', () => {
 			start.disabled = 'true';
-			const timerId = setInterval(convertMs(selectedDates[0]), 1000);
-			
+			const timerId = setInterval(() => {
+				const timeToDate = convertMs(selectedDates[0] - new Date());
+				console.log(timeToDate)
+
+				timer.days.textContent = timeToDate.days;
+				timer.hours.textContent = addLeadingZero(timeToDate.hours);
+				timer.minutes.textContent = addLeadingZero(timeToDate.minutes);
+				timer.seconds.textContent = addLeadingZero(timeToDate.seconds);
+
+			if(timeToDate.days < 10) {
+				timer.days.textContent = addLeadingZero(timeToDate.days);
+			}
+
 			if (timeToDate.days === 0 &
 				timeToDate.hours === 0 &
 				timeToDate.minutes === 0 &
@@ -40,12 +49,16 @@ const options = {
 			) {
 				clearInterval (timerId)
 			};
+			}, 1000);
+
+			
 			
 		});		
 	},
   };
 
-    function convertMs(ms) {
+
+  function convertMs(ms) {
 	// Number of milliseconds per unit of time
 	const second = 1000;
 	const minute = second * 60;
@@ -53,30 +66,22 @@ const options = {
 	const day = hour * 24;
   
 	// Remaining days
-	timeToDate.days = Math.floor(ms / day);
-	timer.days.textContent = timeToDate.days;
+	const days = Math.floor(ms / day);
 	// Remaining hours
-	timeToDate.hours = Math.floor((ms % day) / hour);
-	timer.hours.textContent = addLeadingZero(timeToDate.hours);
+	const hours = Math.floor((ms % day) / hour);
 	// Remaining minutes
-	timeToDate.minutes = Math.floor(((ms % day) % hour) / minute);
-	timer.minutes.textContent = addLeadingZero(timeToDate.minutes);
+	const minutes = Math.floor(((ms % day) % hour) / minute);
 	// Remaining seconds
-	timeToDate.seconds = Math.floor((((ms % day) % hour) % minute) / second);
-	timer.seconds.textContent = addLeadingZero(timeToDate.seconds);
-
-	if(timeToDate.days < 10) {
-		timer.days.textContent = addLeadingZero(timeToDate.days);
-	}
+	const seconds = Math.floor((((ms % day) % hour) % minute) / second);
   
-	return timeToDate;
-  };
+	return { days, hours, minutes, seconds };
+  }
 
-  flatpickr("#datetime-picker", options);
+ flatpickr("#datetime-picker", options);
 
 
   function addLeadingZero (value) {
-	value.toString().padStart(2, '0');
+	return value.toString().padStart(2, '0');
   };
 
   
