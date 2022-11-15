@@ -14,14 +14,16 @@ console.log(refs);
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
 
-  setTimeout (() => {
-    if (shouldResolve) {
-      resolve({position, delay});
-    } else {
-      reject({position, delay});
-    }
-  }, delay)
-  
+  const promise = new Promise( (resolve, reject) => {
+    setTimeout (() => {
+      if (shouldResolve) {
+        resolve({position, delay});
+      } else {
+        reject({position, delay});
+      }
+    }, delay)
+  })
+  return promise;
 }
 
 function onSucces (position, delay) {
@@ -38,7 +40,7 @@ refs.form.addEventListener('submit', onSubmitForm)
 function onSubmitForm (event) {
   event.preventDefault();    
 
-  const delay = Number(refs.delay.value);
+  let delay = Number(refs.delay.value);
   const step = Number(refs.step.value);
   const amount = Number(refs.amount.value);
 
