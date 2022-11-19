@@ -46,7 +46,7 @@ function onSubmitForm (event) {
 
   console.log(delay, step, amount);
   for (let i = 0; i < amount; i += 1) {
-    createPromise(i, delay).then(onSucces).catch(onError);  
+    createPromise(i, delay).then(onSucces(i+1,delay)).catch(onError(i+1,delay));  
     delay += step;
   }
 
