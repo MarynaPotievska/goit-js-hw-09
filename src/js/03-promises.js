@@ -26,11 +26,11 @@ function createPromise(position, delay) {
   return promise;
 }
 
-function onSucces (position, delay) {
+function onSucces ({position, delay}) {
   Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`)
 }
 
-function onError (position, delay) {
+function onError ({position, delay}) {
   Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`)
 }
 
@@ -44,9 +44,8 @@ function onSubmitForm (event) {
   const step = Number(refs.step.value);
   const amount = Number(refs.amount.value);
 
-  console.log(delay, step, amount);
-  for (let i = 0; i < amount; i += 1) {
-    createPromise(i, delay).then(onSucces(i+1,delay)).catch(onError(i+1,delay));  
+  for (let i = 1; i <= amount; i += 1) {
+    createPromise(i, delay).then(onSucces).catch(onError);  
     delay += step;
   }
 
